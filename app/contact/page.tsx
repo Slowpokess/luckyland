@@ -47,91 +47,43 @@ export default function ContactPage() {
               </p>
             </div>
 
-            <div className="grid gap-6 md:grid-cols-3">
-              <div className="rounded-lg bg-background p-6 text-center">
-                <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10 text-primary">
-                  <svg
-                    className="h-6 w-6"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
+            <div className="rounded-lg bg-background p-8">
+              <h3 className="mb-4 text-xl font-bold text-center">Contact Information</h3>
+              <div className="space-y-3 text-center">
+                <p className="font-semibold">Lucky Link, LLC</p>
+                <p className="text-sm text-muted-foreground">Business Address: Wyoming, United States</p>
+                <div className="pt-2">
+                  <p className="text-sm font-semibold">Email (Business & Compliance):</p>
+                  <a
+                    href="mailto:seo@cchanse.life"
+                    className="text-sm text-primary hover:underline"
                   >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-                    />
-                  </svg>
+                    seo@cchanse.life
+                  </a>
                 </div>
-                <h3 className="mb-2 font-semibold">Email</h3>
-                <p className="mb-2 text-sm text-muted-foreground">
-                  For general inquiries
-                </p>
-                <a
-                  href="mailto:support@luckylink.com"
-                  className="text-sm text-primary hover:underline"
-                >
-                  support@luckylink.com
-                </a>
-              </div>
-
-              <div className="rounded-lg bg-background p-6 text-center">
-                <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10 text-primary">
-                  <svg
-                    className="h-6 w-6"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
+                <div>
+                  <p className="text-sm font-semibold">Email (Support):</p>
+                  <a
+                    href="mailto:support@lucky1ink.com"
+                    className="text-sm text-primary hover:underline"
                   >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-                    />
-                  </svg>
+                    support@lucky1ink.com
+                  </a>
                 </div>
-                <h3 className="mb-2 font-semibold">Business Inquiries</h3>
-                <p className="mb-2 text-sm text-muted-foreground">
-                  For partnership and service inquiries
-                </p>
-                <a
-                  href="mailto:business@luckylink.com"
-                  className="text-sm text-primary hover:underline"
-                >
-                  business@luckylink.com
-                </a>
-              </div>
-
-              <div className="rounded-lg bg-background p-6 text-center">
-                <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10 text-primary">
-                  <svg
-                    className="h-6 w-6"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
+                <div>
+                  <p className="text-sm font-semibold">Phone:</p>
+                  <a
+                    href="tel:+13072257838"
+                    className="text-sm text-primary hover:underline"
                   >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
-                    />
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
-                    />
-                  </svg>
+                    +1 307 225 78 38
+                  </a>
                 </div>
-                <h3 className="mb-2 font-semibold">Location</h3>
-                <p className="mb-2 text-sm text-muted-foreground">
-                  Our headquarters
-                </p>
-                <p className="text-sm text-muted-foreground">Wyoming, USA</p>
               </div>
+              <p className="mt-6 text-center text-sm text-muted-foreground">
+                For general inquiries, compliance questions, or support requests,
+                please contact us using the details above.
+              </p>
             </div>
 
             <div className="mt-12 rounded-lg bg-background p-8">

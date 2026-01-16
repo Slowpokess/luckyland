@@ -324,10 +324,17 @@ export default function PrivacyPage() {
                   <p className="mb-4">
                     To exercise these rights, contact us at{" "}
                     <a
-                      href="mailto:support@luckylink.com"
+                      href="mailto:seo@cchanse.life"
                       className="text-primary hover:underline"
                     >
-                      support@luckylink.com
+                      seo@cchanse.life
+                    </a>
+                    {" "}or{" "}
+                    <a
+                      href="mailto:support@lucky1ink.com"
+                      className="text-primary hover:underline"
+                    >
+                      support@lucky1ink.com
                     </a>
                     .
                   </p>
@@ -422,21 +429,21 @@ export default function PrivacyPage() {
                   </p>
                   <div className="mb-4 rounded-lg bg-muted/50 p-4">
                     <p className="mb-2">
-                      <strong>Email:</strong>{" "}
+                      <strong>Email (Business & Compliance):</strong>{" "}
                       <a
-                        href="mailto:support@luckylink.com"
+                        href="mailto:seo@cchanse.life"
                         className="text-primary hover:underline"
                       >
-                        support@luckylink.com
+                        seo@cchanse.life
                       </a>
                     </p>
                     <p className="mb-2">
-                      <strong>Business Email:</strong>{" "}
+                      <strong>Email (Support):</strong>{" "}
                       <a
-                        href="mailto:business@luckylink.com"
+                        href="mailto:support@lucky1ink.com"
                         className="text-primary hover:underline"
                       >
-                        business@luckylink.com
+                        support@lucky1ink.com
                       </a>
                     </p>
                     <p>

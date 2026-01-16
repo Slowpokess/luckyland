@@ -25,6 +25,12 @@ export function Footer() {
             <div className="space-y-2 text-sm">
               <div className="flex items-center space-x-2 text-muted-foreground">
                 <Mail className="h-4 w-4" />
+                <a href={`mailto:${SITE_CONFIG.company.businessEmail}`}>
+                  {SITE_CONFIG.company.businessEmail}
+                </a>
+              </div>
+              <div className="flex items-center space-x-2 text-muted-foreground">
+                <Mail className="h-4 w-4" />
                 <a href={`mailto:${SITE_CONFIG.company.supportEmail}`}>
                   {SITE_CONFIG.company.supportEmail}
                 </a>
@@ -32,6 +38,9 @@ export function Footer() {
               <div className="flex items-center space-x-2 text-muted-foreground">
                 <MapPin className="h-4 w-4" />
                 <span>Wyoming, USA</span>
+              </div>
+              <div className="flex items-center space-x-2 text-muted-foreground">
+                <span>{SITE_CONFIG.company.phoneNumber}</span>
               </div>
             </div>
           </div>
