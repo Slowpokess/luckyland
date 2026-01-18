@@ -36,7 +36,7 @@ export const metadata: Metadata = {
   creator: "Lucky Link LLC",
   publisher: "Lucky Link LLC",
   metadataBase: new URL(
-    process.env.NEXT_PUBLIC_SITE_URL || "https://lucky1ink.com"
+    process.env.NEXT_PUBLIC_SITE_URL || "https://luckylink.click"
   ),
   openGraph: {
     type: "website",

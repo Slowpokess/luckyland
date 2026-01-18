@@ -1,9 +1,9 @@
 export const SITE_CONFIG = {
   name: "Lucky Link LLC",
-  domain: "lucky1ink.com",
+  domain: "luckylink.click",
   description:
     "Digital advertising & promotional services platform providing rewards-based engagement programs and marketing solutions.",
-  url: process.env.NEXT_PUBLIC_SITE_URL || "https://lucky1ink.com",
+  url: process.env.NEXT_PUBLIC_SITE_URL || "https://luckylink.click",
   urls: {
     legal: {
       terms: "/terms",
@@ -20,9 +20,12 @@ export const SITE_CONFIG = {
     name: "Lucky Link LLC",
     state: "Wyoming",
     country: "USA",
-    supportEmail: "support@lucky1ink.com",
-    businessEmail: "seo@cchanse.life",
-    phoneNumber: "+1 307 225 78 38",
+    supportEmail: "sup@luckylink.click",
+    businessEmail: "sup@luckylink.click",
+    phoneNumbers: [
+      { label: "United States", value: "+13072257838" },
+      { label: "Ukraine", value: "+380660011300" },
+    ],
   },
   seo: {
     ogImage: "/og-image.png",

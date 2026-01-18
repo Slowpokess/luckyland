@@ -29,7 +29,7 @@ export async function POST(request: Request) {
     } = process.env;
 
     const notificationLines = [
-      "From: lucky1ink.com",
+      "From: luckylink.click",
       "New contact form submission",
       `Name: ${validatedData.name}`,
       `Email: ${validatedData.email}`,

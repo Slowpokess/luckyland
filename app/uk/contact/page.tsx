@@ -88,7 +88,7 @@ export default function ContactPage() {
                     href="/uk/contact#contact-form"
                     className="text-sm text-primary hover:underline"
                   >
-                    seo@cchanse.life
+                    sup@luckylink.click
                   </a>
                 </div>
                 <div>
@@ -97,7 +97,7 @@ export default function ContactPage() {
                     href="/uk/contact#contact-form"
                     className="text-sm text-primary hover:underline"
                   >
-                    support@lucky1ink.com
+                    sup@luckylink.click
                   </a>
                 </div>
                 <div>
@@ -106,7 +106,14 @@ export default function ContactPage() {
                     href="tel:+13072257838"
                     className="text-sm text-primary hover:underline"
                   >
-                    +1 307 225 78 38
+                    +13072257838 (United States)
+                  </a>
+                  <br />
+                  <a
+                    href="tel:+380660011300"
+                    className="text-sm text-primary hover:underline"
+                  >
+                    +380660011300 (Ukraine)
                   </a>
                 </div>
               </div>

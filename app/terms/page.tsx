@@ -415,19 +415,19 @@ export default function TermsPage() {
                     <p className="mb-2">
                       <strong>Email (Business & Compliance):</strong>{" "}
                       <a
-                        href="mailto:seo@cchanse.life"
+                        href="/contact"
                         className="text-primary hover:underline"
                       >
-                        seo@cchanse.life
+                        sup@luckylink.click
                       </a>
                     </p>
                     <p className="mb-2">
                       <strong>Email (Support):</strong>{" "}
                       <a
-                        href="mailto:support@lucky1ink.com"
+                        href="/contact"
                         className="text-primary hover:underline"
                       >
-                        support@lucky1ink.com
+                        sup@luckylink.click
                       </a>
                     </p>
                     <p>

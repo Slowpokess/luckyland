@@ -19,6 +19,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Mail, MapPin, Phone, Send } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { getLocaleFromPathname } from "@/lib/locale";
+import { SITE_CONFIG } from "@/lib/constants/site";
 
 type ContactFormValues = {
   name: string;
@@ -182,7 +183,7 @@ export function ContactForm() {
                     <FormItem>
                       <FormLabel>{strings.phoneLabel}</FormLabel>
                       <FormControl>
-                        <Input type="tel" placeholder="+1 307 225 78 38" {...field} />
+                        <Input type="tel" placeholder="+13072257838" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -263,14 +264,7 @@ export function ContactForm() {
                   href={strings.contactHref}
                   className="text-sm text-muted-foreground hover:text-primary"
                 >
-                  seo@cchanse.life
-                </a>
-                <br />
-                <a
-                  href={strings.contactHref}
-                  className="text-sm text-muted-foreground hover:text-primary"
-                >
-                  support@lucky1ink.com
+                  {SITE_CONFIG.company.supportEmail}
                 </a>
               </div>
             </div>
@@ -289,12 +283,17 @@ export function ContactForm() {
               <Phone className="h-5 w-5 text-primary shrink-0 mt-0.5" />
               <div>
                 <p className="font-semibold">{strings.phone}</p>
-                <a
-                  href="tel:+13072257838"
-                  className="text-sm text-muted-foreground hover:text-primary"
-                >
-                  +1 307 225 78 38
-                </a>
+                <div className="space-y-1">
+                  {SITE_CONFIG.company.phoneNumbers.map((phone) => (
+                    <a
+                      key={phone.value}
+                      href={`tel:${phone.value}`}
+                      className="block text-sm text-muted-foreground hover:text-primary"
+                    >
+                      {phone.value} {phone.label ? `(${phone.label})` : ""}
+                    </a>
+                  ))}
+                </div>
               </div>
             </div>
           </CardContent>

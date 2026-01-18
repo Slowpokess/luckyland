@@ -4,4 +4,4 @@ Allow: /
 Disallow: /api/
 Disallow: /_next/
 
-Sitemap: https://lucky1ink.com/sitemap.xml
+Sitemap: https://luckylink.click/sitemap.xml

@@ -15,6 +15,9 @@ export function Footer() {
   const registeredIn = t.footer.registeredIn
     .replace("{state}", SITE_CONFIG.company.state)
     .replace("{country}", SITE_CONFIG.company.country);
+  const uniqueEmails = Array.from(
+    new Set([SITE_CONFIG.company.businessEmail, SITE_CONFIG.company.supportEmail])
+  );
 
   return (
     <footer className="border-t bg-background">
@@ -35,23 +38,25 @@ export function Footer() {
             <div className="space-y-2 text-sm">
               <div className="flex items-center space-x-2 text-muted-foreground">
                 <Mail className="h-4 w-4" />
-                <a href={`mailto:${SITE_CONFIG.company.businessEmail}`}>
-                  {SITE_CONFIG.company.businessEmail}
-                </a>
-              </div>
-              <div className="flex items-center space-x-2 text-muted-foreground">
-                <Mail className="h-4 w-4" />
-                <a href={`mailto:${SITE_CONFIG.company.supportEmail}`}>
-                  {SITE_CONFIG.company.supportEmail}
-                </a>
+                <div className="space-y-1">
+                  {uniqueEmails.map((email) => (
+                    <div key={email}>
+                      <Link href={withLocale(locale, "/contact")}>{email}</Link>
+                    </div>
+                  ))}
+                </div>
               </div>
               <div className="flex items-center space-x-2 text-muted-foreground">
                 <MapPin className="h-4 w-4" />
                 <span>Wyoming, USA</span>
               </div>
-              <div className="flex items-center space-x-2 text-muted-foreground">
-                <span>{SITE_CONFIG.company.phoneNumber}</span>
-              </div>
+              {SITE_CONFIG.company.phoneNumbers.map((phone) => (
+                <div key={phone.value} className="flex items-center space-x-2 text-muted-foreground">
+                  <a href={`tel:${phone.value}`} className="hover:text-foreground">
+                    {phone.value} {phone.label ? `(${phone.label})` : ""}
+                  </a>
+                </div>
+              ))}
             </div>
           </div>
 
