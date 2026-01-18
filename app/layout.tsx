@@ -59,12 +59,13 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const locale = headers().get("x-locale") ?? "en";
+  const requestHeaders = await headers();
+  const locale = requestHeaders.get("x-locale") ?? "en";
   return (
     <html lang={locale} suppressHydrationWarning>
       <head>
