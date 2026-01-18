@@ -3,7 +3,7 @@ import type { NextRequest } from "next/server";
 
 const UK_LOCALE_PREFIX = "/uk";
 
-export function middleware(request: NextRequest) {
+export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   if (
