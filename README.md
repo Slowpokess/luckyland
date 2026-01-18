@@ -42,21 +42,19 @@ Edit `.env.local` and add your configuration:
 
 ```env
 # Site Configuration
-NEXT_PUBLIC_SITE_URL=https://luckylink.com
+NEXT_PUBLIC_SITE_URL=https://lucky1ink.com
 
 # Analytics (Optional)
 NEXT_PUBLIC_GA4_ID=G-XXXXXXXXXX
 NEXT_PUBLIC_META_PIXEL_ID=
 
-# Email Service (Choose one for production)
-# Option 1: Resend
-RESEND_API_KEY=re_xxxxxxxxxxxxx
-
-# Option 2: SendGrid
-SENDGRID_API_KEY=SG.xxxxxxxxxxxxx
-
-# Contact Email
-CONTACT_EMAIL=business@luckylink.com
+# Email Service (SMTP)
+SMTP_HOST=smtp.your-provider.com
+SMTP_PORT=465
+SMTP_USER=you@lucky1ink.com
+SMTP_PASS=your_app_password
+SMTP_FROM="Lucky Link LLC <noreply@lucky1ink.com>"
+CONTACT_EMAIL=you@lucky1ink.com
 ```
 
 ### 3. Run Development Server
@@ -262,9 +260,10 @@ This project is proprietary software for Lucky Link LLC.
 ## 🤝 Support
 
 For questions or issues:
-- Email: support@luckylink.com
+- Email: support@luckyl
+
+ink.com
 - Website: https://lucky1ink.com
 
 ---
-
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -17,17 +17,69 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Mail, MapPin, Phone, Send } from "lucide-react";
+import { usePathname } from "next/navigation";
+import { getLocaleFromPathname } from "@/lib/locale";
 
-const contactFormSchema = z.object({
-  name: z.string().min(2, "Name must be at least 2 characters"),
-  email: z.string().email("Please enter a valid email address"),
-  company: z.string().optional(),
-  message: z.string().min(10, "Message must be at least 10 characters"),
-});
-
-type ContactFormValues = z.infer<typeof contactFormSchema>;
+type ContactFormValues = {
+  name: string;
+  email: string;
+  phone: string;
+  company?: string;
+  message: string;
+};
 
 export function ContactForm() {
+  const pathname = usePathname();
+  const locale = getLocaleFromPathname(pathname);
+  const isUk = locale === "uk";
+  const strings = {
+    title: isUk ? "Надішліть повідомлення" : "Send us a Message",
+    description: isUk
+      ? "Заповніть форму нижче, і ми відповімо якнайшвидше."
+      : "Fill out the form below and we'll get back to you as soon as possible.",
+    nameLabel: isUk ? "Ім'я *" : "Name *",
+    emailLabel: isUk ? "Email *" : "Email *",
+    phoneLabel: isUk ? "Телефон *" : "Phone *",
+    companyLabel: isUk ? "Компанія" : "Company",
+    messageLabel: isUk ? "Повідомлення *" : "Message *",
+    namePlaceholder: isUk ? "Іван Іваненко" : "John Doe",
+    emailPlaceholder: isUk ? "ivan@example.com" : "john@example.com",
+    companyPlaceholder: isUk ? "Ваша компанія (необов'язково)" : "Your Company (optional)",
+    messagePlaceholder: isUk ? "Розкажіть, як ми можемо допомогти..." : "Tell us how we can help you...",
+    sending: isUk ? "Надсилання..." : "Sending...",
+    sendMessage: isUk ? "Надіслати повідомлення" : "Send Message",
+    successMessage: isUk
+      ? "Дякуємо за повідомлення! Ми зв'яжемося з вами найближчим часом."
+      : "Thank you for your message! We'll get back to you soon.",
+    errorMessage: isUk ? "Щось пішло не так. Спробуйте ще раз." : "Something went wrong. Please try again.",
+    contactInfo: isUk ? "Контактна інформація" : "Contact Information",
+    email: isUk ? "Email" : "Email",
+    location: isUk ? "Локація" : "Location",
+    phone: isUk ? "Телефон" : "Phone",
+    businessHours: isUk ? "Години роботи" : "Business Hours",
+    weekdayHours: isUk ? "Понеділок - П'ятниця" : "Monday - Friday",
+    responseTime: isUk
+      ? "Зазвичай ми відповідаємо протягом 1-2 робочих днів."
+      : "We typically respond to inquiries within 1-2 business days.",
+    nameMin: isUk ? "Ім'я має містити щонайменше 2 символи" : "Name must be at least 2 characters",
+    emailInvalid: isUk ? "Введіть коректну email-адресу" : "Please enter a valid email address",
+    phoneInvalid: isUk ? "Введіть коректний номер телефону" : "Please enter a valid phone number",
+    messageMin: isUk ? "Повідомлення має містити щонайменше 10 символів" : "Message must be at least 10 characters",
+    contactHref: isUk ? "/uk/contact#contact-form" : "/contact#contact-form",
+  };
+
+  const contactFormSchema = useMemo(
+    () =>
+      z.object({
+        name: z.string().min(2, strings.nameMin),
+        email: z.string().email(strings.emailInvalid),
+        phone: z.string().min(7, strings.phoneInvalid),
+        company: z.string().optional(),
+        message: z.string().min(10, strings.messageMin),
+      }),
+    [strings]
+  );
+
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<{
     type: "success" | "error" | null;
@@ -39,6 +91,7 @@ export function ContactForm() {
     defaultValues: {
       name: "",
       email: "",
+      phone: "",
       company: "",
       message: "",
     },
@@ -62,19 +115,19 @@ export function ContactForm() {
       if (response.ok) {
         setSubmitStatus({
           type: "success",
-          message: "Thank you for your message! We'll get back to you soon.",
+          message: result.message || strings.successMessage,
         });
         form.reset();
       } else {
         setSubmitStatus({
           type: "error",
-          message: result.error || "Something went wrong. Please try again.",
+          message: result.error || strings.errorMessage,
         });
       }
     } catch {
       setSubmitStatus({
         type: "error",
-        message: "Something went wrong. Please try again.",
+        message: strings.errorMessage,
       });
     } finally {
       setIsSubmitting(false);
@@ -83,13 +136,11 @@ export function ContactForm() {
 
   return (
     <div className="grid gap-8 lg:grid-cols-3">
-      <div className="lg:col-span-2">
+      <div className="lg:col-span-2" id="contact-form">
         <Card>
           <CardHeader>
-            <CardTitle>Send us a Message</CardTitle>
-            <CardDescription>
-              Fill out the form below and we&apos;ll get back to you as soon as possible.
-            </CardDescription>
+            <CardTitle>{strings.title}</CardTitle>
+            <CardDescription>{strings.description}</CardDescription>
           </CardHeader>
           <CardContent>
             <Form {...form}>
@@ -100,9 +151,9 @@ export function ContactForm() {
                     name="name"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Name *</FormLabel>
+                        <FormLabel>{strings.nameLabel}</FormLabel>
                         <FormControl>
-                          <Input placeholder="John Doe" {...field} />
+                          <Input placeholder={strings.namePlaceholder} {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -114,9 +165,9 @@ export function ContactForm() {
                     name="email"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Email *</FormLabel>
+                        <FormLabel>{strings.emailLabel}</FormLabel>
                         <FormControl>
-                          <Input placeholder="john@example.com" {...field} />
+                          <Input type="email" placeholder={strings.emailPlaceholder} {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -126,12 +177,26 @@ export function ContactForm() {
 
                 <FormField
                   control={form.control}
+                  name="phone"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>{strings.phoneLabel}</FormLabel>
+                      <FormControl>
+                        <Input type="tel" placeholder="+1 307 225 78 38" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
                   name="company"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Company</FormLabel>
+                      <FormLabel>{strings.companyLabel}</FormLabel>
                       <FormControl>
-                        <Input placeholder="Your Company (optional)" {...field} />
+                        <Input placeholder={strings.companyPlaceholder} {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -143,10 +208,10 @@ export function ContactForm() {
                   name="message"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Message *</FormLabel>
+                      <FormLabel>{strings.messageLabel}</FormLabel>
                       <FormControl>
                         <Textarea
-                          placeholder="Tell us how we can help you..."
+                          placeholder={strings.messagePlaceholder}
                           className="min-h-37.5"
                           {...field}
                         />
@@ -170,10 +235,10 @@ export function ContactForm() {
 
                 <Button type="submit" size="lg" disabled={isSubmitting} className="w-full sm:w-auto">
                   {isSubmitting ? (
-                    "Sending..."
+                    strings.sending
                   ) : (
                     <>
-                      Send Message
+                      {strings.sendMessage}
                       <Send className="ml-2 h-4 w-4" />
                     </>
                   )}
@@ -187,7 +252,7 @@ export function ContactForm() {
       <div className="space-y-6">
         <Card>
           <CardHeader>
-            <CardTitle>Contact Information</CardTitle>
+            <CardTitle>{strings.contactInfo}</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="flex items-start gap-3">
@@ -195,17 +260,17 @@ export function ContactForm() {
               <div>
                 <p className="font-semibold">Email</p>
                 <a
-                  href="mailto:support@luckylink.com"
+                  href={strings.contactHref}
                   className="text-sm text-muted-foreground hover:text-primary"
                 >
-                  support@luckylink.com
+                  seo@cchanse.life
                 </a>
                 <br />
                 <a
-                  href="mailto:business@luckylink.com"
+                  href={strings.contactHref}
                   className="text-sm text-muted-foreground hover:text-primary"
                 >
-                  business@luckylink.com
+                  support@lucky1ink.com
                 </a>
               </div>
             </div>
@@ -213,7 +278,7 @@ export function ContactForm() {
             <div className="flex items-start gap-3">
               <MapPin className="h-5 w-5 text-primary shrink-0 mt-0.5" />
               <div>
-                <p className="font-semibold">Location</p>
+                <p className="font-semibold">{strings.location}</p>
                 <p className="text-sm text-muted-foreground">
                   Wyoming, USA
                 </p>
@@ -223,10 +288,13 @@ export function ContactForm() {
             <div className="flex items-start gap-3">
               <Phone className="h-5 w-5 text-primary shrink-0 mt-0.5" />
               <div>
-                <p className="font-semibold">Phone</p>
-                <p className="text-sm text-muted-foreground">
-                  [Phone Placeholder]
-                </p>
+                <p className="font-semibold">{strings.phone}</p>
+                <a
+                  href="tel:+13072257838"
+                  className="text-sm text-muted-foreground hover:text-primary"
+                >
+                  +1 307 225 78 38
+                </a>
               </div>
             </div>
           </CardContent>
@@ -234,13 +302,13 @@ export function ContactForm() {
 
         <Card>
           <CardHeader>
-            <CardTitle>Business Hours</CardTitle>
+            <CardTitle>{strings.businessHours}</CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="mb-2 text-sm font-semibold">Monday - Friday</p>
+            <p className="mb-2 text-sm font-semibold">{strings.weekdayHours}</p>
             <p className="text-sm text-muted-foreground">9:00 AM - 6:00 PM MST</p>
             <p className="mt-4 text-sm text-muted-foreground">
-              We typically respond to inquiries within 1-2 business days.
+              {strings.responseTime}
             </p>
           </CardContent>
         </Card>

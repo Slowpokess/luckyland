@@ -1,9 +1,11 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
+import nodemailer from "nodemailer";
 
 const contactSchema = z.object({
   name: z.string().min(2),
   email: z.string().email(),
+  phone: z.string().min(7),
   company: z.string().optional(),
   message: z.string().min(10),
 });
@@ -15,60 +17,100 @@ export async function POST(request: Request) {
     // Validate the request body
     const validatedData = contactSchema.parse(body);
 
-    // Log the contact form submission (for development/testing)
-    console.log("Contact form submission:", {
-      name: validatedData.name,
-      email: validatedData.email,
-      company: validatedData.company || "N/A",
-      message: validatedData.message,
-      timestamp: new Date().toISOString(),
-    });
+    const {
+      SMTP_HOST,
+      SMTP_PORT,
+      SMTP_USER,
+      SMTP_PASS,
+      SMTP_FROM,
+      CONTACT_EMAIL,
+      TELEGRAM_BOT_TOKEN,
+      TELEGRAM_CHAT_ID,
+    } = process.env;
 
-    // TODO: Implement actual email sending logic
-    // Here are two common approaches:
+    const notificationLines = [
+      "From: lucky1ink.com",
+      "New contact form submission",
+      `Name: ${validatedData.name}`,
+      `Email: ${validatedData.email}`,
+      `Phone: ${validatedData.phone}`,
+      `Company: ${validatedData.company || "N/A"}`,
+      "",
+      "Message:",
+      validatedData.message,
+    ];
 
-    // Option 1: Using Resend (recommended for production)
-    // Uncomment this when you have set up Resend
-    /*
-    import { Resend } from 'resend';
-    const resend = new Resend(process.env.RESEND_API_KEY);
+    const errors: string[] = [];
+    let sent = false;
 
-    await resend.emails.send({
-      from: 'Lucky Link LLC <noreply@luckylink.com>',
-      to: [process.env.CONTACT_EMAIL || 'business@luckylink.com'],
-      subject: `New Contact Form Submission from ${validatedData.name}`,
-      html: `
-        <h2>New Contact Form Submission</h2>
-        <p><strong>Name:</strong> ${validatedData.name}</p>
-        <p><strong>Email:</strong> ${validatedData.email}</p>
-        ${validatedData.company ? `<p><strong>Company:</strong> ${validatedData.company}</p>` : ''}
-        <p><strong>Message:</strong></p>
-        <p>${validatedData.message}</p>
-      `,
-    });
-    */
+    if (TELEGRAM_BOT_TOKEN && TELEGRAM_CHAT_ID) {
+      const telegramResponse = await fetch(
+        `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            chat_id: TELEGRAM_CHAT_ID,
+            text: notificationLines.join("\n"),
+          }),
+        }
+      );
 
-    // Option 2: Using SendGrid
-    // Uncomment this when you have set up SendGrid
-    /*
-    import sgMail from '@sendgrid/mail';
-    sgMail.setApiKey(process.env.SENDGRID_API_KEY || '');
+      if (!telegramResponse.ok) {
+        errors.push("telegram");
+      } else {
+        sent = true;
+      }
+    }
 
-    await sgMail.send({
-      to: process.env.CONTACT_EMAIL || 'business@luckylink.com',
-      from: 'noreply@luckylink.com',
-      subject: `New Contact Form Submission from ${validatedData.name}`,
-      text: `
-        Name: ${validatedData.name}
-        Email: ${validatedData.email}
-        Company: ${validatedData.company || 'N/A'}
-        Message: ${validatedData.message}
-      `,
-    });
-    */
+    if (SMTP_HOST && SMTP_PORT && SMTP_USER && SMTP_PASS) {
+      const transporter = nodemailer.createTransport({
+        host: SMTP_HOST,
+        port: Number(SMTP_PORT),
+        secure: Number(SMTP_PORT) === 465,
+        auth: {
+          user: SMTP_USER,
+          pass: SMTP_PASS,
+        },
+      });
 
-    // For now, just log and return success
-    // In production, you should implement one of the email options above
+      const toEmail = CONTACT_EMAIL || SMTP_USER;
+      const fromEmail = SMTP_FROM || `Lucky Link LLC <${SMTP_USER}>`;
+
+      await transporter.sendMail({
+        from: fromEmail,
+        to: toEmail,
+        replyTo: validatedData.email,
+        subject: `New Contact Form Submission from ${validatedData.name}`,
+        text: notificationLines.join("\n"),
+        html: `
+          <h2>New Contact Form Submission</h2>
+          <p><strong>Name:</strong> ${validatedData.name}</p>
+          <p><strong>Email:</strong> ${validatedData.email}</p>
+          <p><strong>Phone:</strong> ${validatedData.phone}</p>
+          ${
+            validatedData.company
+              ? `<p><strong>Company:</strong> ${validatedData.company}</p>`
+              : ""
+          }
+          <p><strong>Message:</strong></p>
+          <p>${validatedData.message}</p>
+        `,
+      });
+
+      sent = true;
+    }
+
+    if (!sent) {
+      return NextResponse.json(
+        {
+          error:
+            "No notification channel configured. Set TELEGRAM_BOT_TOKEN/TELEGRAM_CHAT_ID or SMTP credentials.",
+          details: errors,
+        },
+        { status: 500 }
+      );
+    }
 
     return NextResponse.json(
       {

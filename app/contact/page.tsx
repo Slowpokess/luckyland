@@ -7,22 +7,52 @@ export const metadata: Metadata = {
   title: "Contact Us",
   description:
     "Get in touch with Lucky Link LLC. We're here to help with your digital advertising and promotional service needs.",
+  alternates: {
+    canonical: "/contact",
+    languages: {
+      en: "/contact",
+      uk: "/uk/contact",
+      "x-default": "/contact",
+    },
+  },
 };
 
 export default function ContactPage() {
   return (
     <PageWrapper>
       {/* Hero Section */}
-      <section className="bg-linear-to-b from-primary/10 to-background py-20 md:py-32">
+      <section className="relative overflow-hidden py-20 md:py-32">
+        <div
+          className="absolute inset-0 -z-10 bg-cover bg-center"
+          style={{ backgroundImage: "url('/ab.png')" }}
+          aria-hidden="true"
+        />
+        <div className="absolute inset-0 -z-10 bg-black/40" aria-hidden="true" />
         <div className="container mx-auto px-4">
           <div className="mx-auto max-w-4xl text-center">
-            <h1 className="mb-6 text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl">
-              Get in Touch
-            </h1>
-            <p className="mb-8 text-lg text-muted-foreground md:text-xl">
-              Have questions about our services? We&apos;d love to hear from you.
-              Send us a message and we&apos;ll respond as soon as possible.
-            </p>
+            <div className="mx-auto inline-block rounded-2xl border border-black/5 bg-background/50 px-6 py-5 backdrop-blur-sm">
+              <h1
+                className="mb-6 text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl"
+                style={{
+                  color: "#0E0E0E",
+                  WebkitTextStroke: "1px rgba(255,255,255,0.35)",
+                  textShadow: "0 8px 30px rgba(0,0,0,0.25)",
+                  filter: "drop-shadow(0 0 1px rgba(255,255,255,0.25))",
+                }}
+              >
+                Get in Touch
+              </h1>
+              <p
+                className="text-lg md:text-xl"
+                style={{
+                  color: "#3A3A3A",
+                  textShadow: "0 4px 14px rgba(0,0,0,0.18)",
+                }}
+              >
+                Have questions about our services? We&apos;d love to hear from you.
+                Send us a message and we&apos;ll respond as soon as possible.
+              </p>
+            </div>
           </div>
         </div>
       </section>
@@ -55,7 +85,7 @@ export default function ContactPage() {
                 <div className="pt-2">
                   <p className="text-sm font-semibold">Email (Business & Compliance):</p>
                   <a
-                    href="mailto:seo@cchanse.life"
+                    href="/contact#contact-form"
                     className="text-sm text-primary hover:underline"
                   >
                     seo@cchanse.life
@@ -64,7 +94,7 @@ export default function ContactPage() {
                 <div>
                   <p className="text-sm font-semibold">Email (Support):</p>
                   <a
-                    href="mailto:support@lucky1ink.com"
+                    href="/contact#contact-form"
                     className="text-sm text-primary hover:underline"
                   >
                     support@lucky1ink.com

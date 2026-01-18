@@ -7,6 +7,14 @@ export const metadata: Metadata = {
   title: "Privacy Policy",
   description:
     "Privacy Policy for Lucky Link LLC. Learn how we collect, use, and protect your personal information.",
+  alternates: {
+    canonical: "/privacy",
+    languages: {
+      en: "/privacy",
+      uk: "/uk/privacy",
+      "x-default": "/privacy",
+    },
+  },
 };
 
 export default function PrivacyPage() {
@@ -16,15 +24,37 @@ export default function PrivacyPage() {
         <div className="container mx-auto px-4">
           <div className="mx-auto max-w-4xl">
             <div className="mb-8 text-center">
-              <h1 className="mb-4 text-4xl font-bold tracking-tight md:text-5xl">
-                Privacy Policy
-              </h1>
-              <p className="text-lg text-muted-foreground">
-                How we collect, use, and protect your information
-              </p>
-              <p className="mt-2 text-sm text-muted-foreground">
-                Last Updated: {new Date().toLocaleDateString()}
-              </p>
+              <div className="mx-auto inline-block rounded-2xl border border-black/5 bg-background/50 px-6 py-5 backdrop-blur-sm">
+                <h1
+                  className="mb-4 text-4xl font-bold tracking-tight md:text-5xl"
+                  style={{
+                    color: "#0E0E0E",
+                    WebkitTextStroke: "1px rgba(255,255,255,0.35)",
+                    textShadow: "0 8px 30px rgba(0,0,0,0.25)",
+                    filter: "drop-shadow(0 0 1px rgba(255,255,255,0.25))",
+                  }}
+                >
+                  Privacy Policy
+                </h1>
+                <p
+                  className="text-lg"
+                  style={{
+                    color: "#3A3A3A",
+                    textShadow: "0 4px 14px rgba(0,0,0,0.18)",
+                  }}
+                >
+                  How we collect, use, and protect your information
+                </p>
+                <p
+                  className="mt-2 text-sm"
+                  style={{
+                    color: "#3A3A3A",
+                    textShadow: "0 4px 14px rgba(0,0,0,0.18)",
+                  }}
+                >
+                  Last Updated: {new Date().toLocaleDateString()}
+                </p>
+              </div>
             </div>
 
             <Card>

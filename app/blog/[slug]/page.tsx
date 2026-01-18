@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Calendar, Clock, ArrowLeft, Share2 } from "lucide-react";
 import { blogPosts } from "@/lib/data/blog-posts";
 import type { Metadata } from "next";
+import { ParallaxVideo } from "@/components/animations/parallax-video";
 
 interface BlogPostPageProps {
   params: {
@@ -14,13 +15,17 @@ interface BlogPostPageProps {
 }
 
 export async function generateStaticParams() {
-  return blogPosts.map((post) => ({
-    slug: post.slug,
-  }));
+  return blogPosts
+    .filter((post) => post.locale === "en")
+    .map((post) => ({
+      slug: post.slug,
+    }));
 }
 
 export async function generateMetadata({ params }: BlogPostPageProps): Promise<Metadata> {
-  const post = blogPosts.find((p) => p.slug === params.slug);
+  const post = blogPosts.find(
+    (p) => p.slug === params.slug && p.locale === "en"
+  );
 
   if (!post) {
     return {
@@ -31,11 +36,19 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
   return {
     title: post.title,
     description: post.description,
+    alternates: {
+      canonical: `/blog/${params.slug}`,
+      languages: {
+        en: `/blog/${params.slug}`,
+        uk: `/uk/blog/${params.slug}`,
+        "x-default": `/blog/${params.slug}`,
+      },
+    },
   };
 }
 
 export default function BlogPostPage({ params }: BlogPostPageProps) {
-  const post = blogPosts.find((p) => p.slug === params.slug);
+  const post = blogPosts.find((p) => p.slug === params.slug && p.locale === "en");
 
   if (!post) {
     notFound();
@@ -43,7 +56,12 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
 
   // Get related posts (same category, excluding current post)
   const relatedPosts = blogPosts
-    .filter((p) => p.category === post.category && p.slug !== post.slug)
+    .filter(
+      (p) =>
+        p.category === post.category &&
+        p.slug !== post.slug &&
+        p.locale === "en"
+    )
     .slice(0, 3);
 
   return (
@@ -164,19 +182,20 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
       </article>
 
       {/* CTA Section */}
-      <section className="bg-primary py-20 text-primary-foreground">
-        <div className="container mx-auto px-4">
+      <section className="relative overflow-hidden py-20 text-white">
+        <ParallaxVideo src="/reloop.mp4" overlayClassName="bg-black/45" />
+        <div className="container relative z-10 mx-auto px-4">
           <div className="mx-auto max-w-3xl text-center">
             <h2 className="mb-4 text-3xl font-bold tracking-tight md:text-4xl">
               Ready to Launch Your Campaign?
             </h2>
-            <p className="mb-8 text-lg opacity-90">
+            <p className="mb-8 text-lg text-white/90">
               Let Lucky Link LLC help you create compliant, engaging promotional
               campaigns that drive results.
             </p>
             <Link
               href="/contact"
-              className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-background text-foreground hover:bg-background/90 h-11 px-8"
+              className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-white text-foreground hover:bg-white/90 h-11 px-8"
             >
               Get Started Today
             </Link>

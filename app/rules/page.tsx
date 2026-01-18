@@ -8,6 +8,14 @@ export const metadata: Metadata = {
   title: "Official Rules",
   description:
     "Official rules for all Lucky Link LLC promotional giveaways. No purchase necessary. Void where prohibited.",
+  alternates: {
+    canonical: "/rules",
+    languages: {
+      en: "/rules",
+      uk: "/uk/rules",
+      "x-default": "/rules",
+    },
+  },
 };
 
 export default function RulesPage() {
@@ -19,12 +27,28 @@ export default function RulesPage() {
         <div className="container mx-auto px-4">
           <div className="mx-auto max-w-4xl">
             <div className="mb-8 text-center">
-              <h1 className="mb-4 text-4xl font-bold tracking-tight md:text-5xl">
-                Official Rules
-              </h1>
-              <p className="text-lg text-muted-foreground">
-                Official rules for Lucky Link LLC promotional giveaways
-              </p>
+              <div className="mx-auto inline-block rounded-2xl border border-black/5 bg-background/50 px-6 py-5 backdrop-blur-sm">
+                <h1
+                  className="mb-4 text-4xl font-bold tracking-tight md:text-5xl"
+                  style={{
+                    color: "#0E0E0E",
+                    WebkitTextStroke: "1px rgba(255,255,255,0.35)",
+                    textShadow: "0 8px 30px rgba(0,0,0,0.25)",
+                    filter: "drop-shadow(0 0 1px rgba(255,255,255,0.25))",
+                  }}
+                >
+                  Official Rules
+                </h1>
+                <p
+                  className="text-lg"
+                  style={{
+                    color: "#3A3A3A",
+                    textShadow: "0 4px 14px rgba(0,0,0,0.18)",
+                  }}
+                >
+                  Official rules for Lucky Link LLC promotional giveaways
+                </p>
+              </div>
             </div>
 
             <Card>

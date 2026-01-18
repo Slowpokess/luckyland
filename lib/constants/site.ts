@@ -31,23 +31,23 @@ export const SITE_CONFIG = {
 
 export const NAVIGATION_CONFIG = {
   main: [
-    { name: "Home", href: "/" },
-    { name: "Services", href: "/services" },
-    { name: "Programs", href: "/programs" },
-    { name: "About", href: "/about" },
-    { name: "Blog", href: "/blog" },
-    { name: "Contact", href: "/contact" },
+    { key: "home", href: "/" },
+    { key: "services", href: "/services" },
+    { key: "programs", href: "/programs" },
+    { key: "about", href: "/about" },
+    { key: "blog", href: "/blog" },
+    { key: "contact", href: "/contact" },
   ],
   legal: [
-    { name: "Terms of Service", href: "/terms" },
-    { name: "Privacy Policy", href: "/privacy" },
-    { name: "Official Rules", href: "/rules" },
+    { key: "termsOfService", href: "/terms" },
+    { key: "privacyPolicy", href: "/privacy" },
+    { key: "officialRules", href: "/rules" },
   ],
 } as const;
 
 export const LOCALES = {
   en: "English",
-  ua: "Українська",
+  uk: "Українська",
 } as const;
 
 export type Locale = keyof typeof LOCALES;

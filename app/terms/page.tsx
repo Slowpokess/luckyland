@@ -7,6 +7,14 @@ export const metadata: Metadata = {
   title: "Terms of Service",
   description:
     "Terms of Service for Lucky Link LLC website and services. By using our website, you agree to these terms.",
+  alternates: {
+    canonical: "/terms",
+    languages: {
+      en: "/terms",
+      uk: "/uk/terms",
+      "x-default": "/terms",
+    },
+  },
 };
 
 export default function TermsPage() {
@@ -18,15 +26,37 @@ export default function TermsPage() {
         <div className="container mx-auto px-4">
           <div className="mx-auto max-w-4xl">
             <div className="mb-8 text-center">
-              <h1 className="mb-4 text-4xl font-bold tracking-tight md:text-5xl">
-                Terms of Service
-              </h1>
-              <p className="text-lg text-muted-foreground">
-                Please read these terms carefully before using our website
-              </p>
-              <p className="mt-2 text-sm text-muted-foreground">
-                Last Updated: {currentDate}
-              </p>
+              <div className="mx-auto inline-block rounded-2xl border border-black/5 bg-background/50 px-6 py-5 backdrop-blur-sm">
+                <h1
+                  className="mb-4 text-4xl font-bold tracking-tight md:text-5xl"
+                  style={{
+                    color: "#0E0E0E",
+                    WebkitTextStroke: "1px rgba(255,255,255,0.35)",
+                    textShadow: "0 8px 30px rgba(0,0,0,0.25)",
+                    filter: "drop-shadow(0 0 1px rgba(255,255,255,0.25))",
+                  }}
+                >
+                  Terms of Service
+                </h1>
+                <p
+                  className="text-lg"
+                  style={{
+                    color: "#3A3A3A",
+                    textShadow: "0 4px 14px rgba(0,0,0,0.18)",
+                  }}
+                >
+                  Please read these terms carefully before using our website
+                </p>
+                <p
+                  className="mt-2 text-sm"
+                  style={{
+                    color: "#3A3A3A",
+                    textShadow: "0 4px 14px rgba(0,0,0,0.18)",
+                  }}
+                >
+                  Last Updated: {currentDate}
+                </p>
+              </div>
             </div>
 
             <Card>

@@ -5,16 +5,26 @@ import { Badge } from "@/components/ui/badge";
 import { Calendar, Clock, ArrowRight } from "lucide-react";
 import { blogPosts } from "@/lib/data/blog-posts";
 import type { Metadata } from "next";
+import { FadeIn, StaggerChildren } from "@/components/animations/fade-in";
 
 export const metadata: Metadata = {
   title: "Blog",
   description:
     "Insights and best practices for promotional marketing, compliance, and customer engagement from Lucky Link LLC.",
+  alternates: {
+    canonical: "/blog",
+    languages: {
+      en: "/blog",
+      uk: "/uk/blog",
+      "x-default": "/blog",
+    },
+  },
 };
 
 export default function BlogPage() {
   // Sort posts by date (newest first)
-  const sortedPosts = [...blogPosts].sort((a, b) =>
+  const localizedPosts = blogPosts.filter((post) => post.locale === "en");
+  const sortedPosts = [...localizedPosts].sort((a, b) =>
     new Date(b.date).getTime() - new Date(a.date).getTime()
   );
 
@@ -24,44 +34,82 @@ export default function BlogPage() {
   return (
     <PageWrapper>
       {/* Hero Section */}
-      <section className="bg-linear-to-b from-primary/10 to-background py-20 md:py-32">
-        <div className="container mx-auto px-4">
-          <div className="mx-auto max-w-4xl text-center">
-            <h1 className="mb-6 text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl">
-              Blog
-            </h1>
-            <p className="mb-8 text-lg text-muted-foreground md:text-xl">
-              Insights and best practices for promotional marketing, compliance,
-              and customer engagement
-            </p>
-          </div>
+      <section className="relative overflow-hidden bg-linear-to-b from-primary/10 to-background py-20 md:py-32">
+        <div className="absolute inset-0 -z-20 overflow-hidden" aria-hidden="true">
+          <video
+            className="absolute inset-0 h-full w-full object-cover"
+            src="/img/blog.mp4"
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="auto"
+            poster="/hero.png"
+          />
+        </div>
+        {/* Animated background elements */}
+        <div className="absolute inset-0 overflow-hidden">
+          <div className="absolute -top-40 -right-40 h-80 w-80 animate-float rounded-full bg-primary/10 blur-3xl" />
+          <div className="absolute -bottom-40 -left-40 h-80 w-80 animate-float rounded-full bg-accent/10 blur-3xl animation-delay-2000" />
+        </div>
+
+        <div className="container relative z-10 mx-auto px-4">
+          <FadeIn>
+            <div className="mx-auto max-w-4xl text-center">
+              <div className="mx-auto inline-block rounded-2xl border border-black/5 bg-background/50 px-6 py-5 backdrop-blur-sm">
+                <h1
+                  className="mb-6 text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl"
+                  style={{
+                    color: "#0E0E0E",
+                    WebkitTextStroke: "1px rgba(255,255,255,0.35)",
+                    textShadow: "0 8px 30px rgba(0,0,0,0.25)",
+                    filter: "drop-shadow(0 0 1px rgba(255,255,255,0.25))",
+                  }}
+                >
+                  Blog
+                </h1>
+                <p
+                  className="text-lg md:text-xl"
+                  style={{
+                    color: "#3A3A3A",
+                    textShadow: "0 4px 14px rgba(0,0,0,0.18)",
+                  }}
+                >
+                  Insights and best practices for promotional marketing, compliance,
+                  and customer engagement
+                </p>
+              </div>
+            </div>
+          </FadeIn>
         </div>
       </section>
 
       {/* Categories Section */}
-      <section className="border-b py-8">
+      <section className="border-b bg-muted/30 py-8 backdrop-blur-sm">
         <div className="container mx-auto px-4">
-          <div className="mx-auto max-w-4xl">
-            <div className="flex flex-wrap items-center gap-2">
-              <span className="text-sm font-semibold">Categories:</span>
-              <Badge variant="secondary">All</Badge>
-              {categories.map((category) => (
-                <Badge key={category} variant="outline" className="cursor-pointer hover:bg-primary hover:text-primary-foreground">
-                  {category}
-                </Badge>
-              ))}
+          <FadeIn delay={0.1}>
+            <div className="mx-auto max-w-4xl">
+              <div className="flex flex-wrap items-center gap-2">
+                <span className="text-sm font-semibold">Categories:</span>
+                <Badge variant="secondary">All</Badge>
+                {categories.map((category) => (
+                  <Badge key={category} variant="outline" className="cursor-pointer transition-all duration-200 hover:bg-primary hover:text-primary-foreground hover:scale-105">
+                    {category}
+                  </Badge>
+                ))}
+              </div>
             </div>
-          </div>
+          </FadeIn>
         </div>
       </section>
 
       {/* Blog Posts Section */}
       <section className="py-20">
         <div className="container mx-auto px-4">
-          <div className="mx-auto max-w-5xl">
+          <StaggerChildren className="mx-auto max-w-5xl">
             <div className="grid gap-8">
               {sortedPosts.map((post) => (
-                <Card key={post.slug} className="overflow-hidden transition-shadow hover:shadow-lg">
+                <Card key={post.slug} className="group overflow-hidden transition-all duration-300 hover:shadow-xl hover:scale-[1.01]">
                   <CardHeader>
                     <div className="mb-2 flex flex-wrap items-center gap-2 text-sm text-muted-foreground">
                       <Badge>{post.category}</Badge>
@@ -107,35 +155,43 @@ export default function BlogPage() {
                 </Card>
               ))}
             </div>
-          </div>
+          </StaggerChildren>
         </div>
       </section>
 
       {/* Newsletter Section */}
-      <section className="bg-muted/50 py-20">
+      <section className="relative overflow-hidden py-20">
+        <div
+          className="absolute inset-0 -z-20 bg-cover bg-center"
+          style={{ backgroundImage: "url('/about.jpeg')" }}
+          aria-hidden="true"
+        />
+        <div className="absolute inset-0 -z-10 bg-white/30" aria-hidden="true" />
         <div className="container mx-auto px-4">
           <div className="mx-auto max-w-3xl text-center">
-            <h2 className="mb-4 text-3xl font-bold tracking-tight md:text-4xl">
-              Stay Updated
-            </h2>
-            <p className="mb-8 text-lg text-muted-foreground">
-              Get the latest insights on promotional marketing and compliance
-              delivered to your inbox.
-            </p>
-            <div className="mx-auto max-w-md">
-              <div className="flex gap-2">
-                <input
-                  type="email"
-                  placeholder="Enter your email"
-                  className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                />
-                <button className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2">
-                  Subscribe
-                </button>
-              </div>
-              <p className="mt-4 text-xs text-muted-foreground">
-                We respect your privacy. Unsubscribe at any time.
+            <div className="rounded-2xl border border-black/5 bg-background/50 p-8 backdrop-blur-sm">
+              <h2 className="mb-4 text-3xl font-bold tracking-tight md:text-4xl">
+                Stay Updated
+              </h2>
+              <p className="mb-8 text-lg text-muted-foreground">
+                Get the latest insights on promotional marketing and compliance
+                delivered to your inbox.
               </p>
+              <div className="mx-auto max-w-md">
+                <div className="flex gap-2">
+                  <input
+                    type="email"
+                    placeholder="Enter your email"
+                    className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                  />
+                  <button className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2">
+                    Subscribe
+                  </button>
+                </div>
+                <p className="mt-4 text-xs text-muted-foreground">
+                  We respect your privacy. Unsubscribe at any time.
+                </p>
+              </div>
             </div>
           </div>
         </div>

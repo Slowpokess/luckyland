@@ -1,7 +1,7 @@
 // Analytics placeholders for GA4 and Meta Pixel
 // Replace placeholder values with actual measurement IDs when ready
 
-export const GA4_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA4_ID || "G-XXXXXXXXXX";
+export const GA4_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA4_ID || "";
 
 export const META_PIXEL_ID = process.env.NEXT_PUBLIC_META_PIXEL_ID || "";
 

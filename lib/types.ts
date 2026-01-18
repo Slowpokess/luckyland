@@ -7,12 +7,13 @@ export interface BlogPost {
   author: string;
   category: string;
   readTime: string;
-  locale: "en" | "ua";
+  locale: "en" | "uk";
 }
 
 export interface ContactFormData {
   name: string;
   email: string;
+  phone: string;
   company?: string;
   message: string;
 }
@@ -37,6 +38,6 @@ export interface Program {
 }
 
 export interface Locale {
-  code: "en" | "ua";
+  code: "en" | "uk";
   name: string;
 }

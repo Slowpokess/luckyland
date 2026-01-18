@@ -6,7 +6,8 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
+  --font-sans: var(--font-inter);
+  --font-heading: var(--font-space-grotesk);
   --font-mono: var(--font-geist-mono);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
@@ -44,6 +45,12 @@
   --radius-2xl: calc(var(--radius) + 8px);
   --radius-3xl: calc(var(--radius) + 12px);
   --radius-4xl: calc(var(--radius) + 16px);
+
+  /* Animation durations */
+  --duration-instant: 150ms;
+  --duration-fast: 200ms;
+  --duration-normal: 300ms;
+  --duration-slow: 500ms;
 }
 
 :root {
@@ -121,5 +128,161 @@
   }
   body {
     @apply bg-background text-foreground;
+  }
+
+  /* Typography enhancements */
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-heading;
+  }
+
+  /* Smooth scrolling */
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Custom scrollbar for webkit browsers */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-muted;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-primary/30 rounded-full;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-primary/50;
+  }
+}
+
+.text-outline-black {
+  -webkit-text-stroke: 1.5px rgba(0, 0, 0, 0.9);
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.45);
+}
+
+.text-outline-white {
+  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.95);
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+}
+
+/* Glassmorphism utilities */
+@utility glass {
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  background-color: oklch(from var(--color-background) l c h / 0.7);
+  border: 1px solid oklch(from var(--color-border) l c h / 0.3);
+}
+
+@utility glass-card {
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  background-color: oklch(from var(--color-background) l c h / 0.6);
+  border: 1px solid oklch(from var(--color-border) l c h / 0.2);
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+}
+
+/* Gradient backgrounds */
+@utility gradient-radial {
+  background-image: radial-gradient(var(--tw-gradient-stops));
+}
+
+@utility gradient-conic {
+  background-image: conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops));
+}
+
+@utility gradient-mesh {
+  background-image:
+    radial-gradient(at 40% 20%, oklch(0.55 0.22 264 / 0.3) 0px, transparent 50%),
+    radial-gradient(at 80% 0%, oklch(0.60 0.20 285 / 0.25) 0px, transparent 50%),
+    radial-gradient(at 0% 50%, oklch(0.55 0.22 264 / 0.2) 0px, transparent 50%),
+    radial-gradient(at 80% 50%, oklch(0.60 0.20 285 / 0.15) 0px, transparent 50%),
+    radial-gradient(at 0% 100%, oklch(0.55 0.22 264 / 0.2) 0px, transparent 50%),
+    radial-gradient(at 80% 100%, oklch(0.60 0.20 285 / 0.15) 0px, transparent 50%);
+}
+
+/* Animation utilities */
+@utility animate-in {
+  animation: fadeIn 0.3s ease-out forwards;
+}
+
+@utility animate-out {
+  animation: fadeOut 0.3s ease-out forwards;
+}
+
+/* Keyframes */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
+/* Subtle animations */
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+.animate-shimmer {
+  animation: shimmer 3s linear infinite;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    oklch(from var(--color-background) l c h / 0.5),
+    transparent
+  );
+  background-size: 1000px 100%;
+}
+
+/* Focus visible improvements */
+*:focus-visible {
+  outline: 2px solid oklch(from var(--color-ring) l c h / 0.5);
+  outline-offset: 2px;
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }

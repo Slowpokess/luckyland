@@ -1,12 +1,21 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { headers } from "next/headers";
+import { Inter, Space_Grotesk } from "next/font/google";
 import "./globals.css";
 import Script from "next/script";
-import { GA4_MEASUREMENT_ID, META_PIXEL_ID } from "@/lib/analytics";
+import { analyticsConfig, GA4_MEASUREMENT_ID, META_PIXEL_ID } from "@/lib/analytics";
 
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-inter",
+  display: "swap",
+});
+
+const spaceGrotesk = Space_Grotesk({
+  subsets: ["latin"],
+  variable: "--font-space-grotesk",
+  display: "swap",
+  preload: true,
 });
 
 export const metadata: Metadata = {
@@ -27,7 +36,7 @@ export const metadata: Metadata = {
   creator: "Lucky Link LLC",
   publisher: "Lucky Link LLC",
   metadataBase: new URL(
-    process.env.NEXT_PUBLIC_SITE_URL || "https://luckylink.com"
+    process.env.NEXT_PUBLIC_SITE_URL || "https://lucky1ink.com"
   ),
   openGraph: {
     type: "website",
@@ -55,17 +64,18 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const locale = headers().get("x-locale") ?? "en";
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang={locale} suppressHydrationWarning>
       <head>
         {/* GA4 */}
-        {GA4_MEASUREMENT_ID && (
+        {analyticsConfig.ga4.enabled && GA4_MEASUREMENT_ID && (
           <Script
             src={`https://www.googletagmanager.com/gtag/js?id=${GA4_MEASUREMENT_ID}`}
             strategy="afterInteractive"
           />
         )}
-        {GA4_MEASUREMENT_ID && (
+        {analyticsConfig.ga4.enabled && GA4_MEASUREMENT_ID && (
           <Script id="google-analytics" strategy="afterInteractive">
             {`
               window.dataLayer = window.dataLayer || [];
@@ -76,7 +86,7 @@ export default function RootLayout({
           </Script>
         )}
         {/* Meta Pixel */}
-        {META_PIXEL_ID && (
+        {analyticsConfig.metaPixel.enabled && META_PIXEL_ID && (
           <Script id="meta-pixel" strategy="afterInteractive">
             {`
               !function(f,b,e,v,n,t,s)
@@ -93,7 +103,7 @@ export default function RootLayout({
           </Script>
         )}
       </head>
-      <body className={`${inter.variable} font-sans antialiased`}>
+      <body className={`${inter.variable} ${spaceGrotesk.variable} font-sans antialiased`}>
         {children}
       </body>
     </html>
