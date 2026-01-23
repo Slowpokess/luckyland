@@ -7,6 +7,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import { Badge } from "@/components/ui/badge";
 import { FadeIn, StaggerChildren } from "@/components/animations/fade-in";
 import { ParallaxVideo } from "@/components/animations/parallax-video";
+import { LazyVideo } from "@/components/media/lazy-video";
 import { LEGAL_DISCLOSURES, BUSINESS_DESCRIPTION } from "@/lib/constants/legal";
 import type { Metadata } from "next";
 
@@ -126,7 +127,7 @@ export default function HomePage() {
       {/* Hero Section */}
       <section className="relative overflow-hidden py-20 md:py-32">
         <div className="absolute inset-0 -z-20 overflow-hidden" aria-hidden="true">
-          <video
+          <LazyVideo
             className="absolute inset-0 h-full w-full object-cover"
             src="/home.mp4"
             autoPlay

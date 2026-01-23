@@ -16,6 +16,7 @@ import type { Metadata } from "next";
 import { SITE_CONFIG } from "@/lib/constants/site";
 import { BUSINESS_DESCRIPTION } from "@/lib/constants/legal";
 import { FadeIn, StaggerChildren } from "@/components/animations/fade-in";
+import { LazyVideo } from "@/components/media/lazy-video";
 
 export const metadata: Metadata = {
   title: "Про нас",
@@ -64,7 +65,7 @@ export default function AboutPage() {
       {/* Hero Section */}
       <section className="relative overflow-hidden bg-linear-to-b from-primary/10 to-background py-20 md:py-32">
         <div className="absolute inset-0 -z-20 overflow-hidden" aria-hidden="true">
-          <video
+          <LazyVideo
             className="absolute inset-0 h-full w-full object-cover"
             src="/abouut.mp4"
             autoPlay
@@ -443,7 +444,7 @@ export default function AboutPage() {
       {/* CTA Section */}
       <section className="relative overflow-hidden py-20 text-primary-foreground">
         <div className="absolute inset-0 -z-20 overflow-hidden" aria-hidden="true">
-          <video
+          <LazyVideo
             className="absolute inset-0 h-full w-full object-cover"
             src="/reloop.mp4"
             autoPlay

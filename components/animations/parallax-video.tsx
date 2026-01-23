@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
 
 interface ParallaxVideoProps {
@@ -16,6 +16,7 @@ export function ParallaxVideo({
 }: ParallaxVideoProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
+  const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
     let rafId = 0;
@@ -58,6 +59,34 @@ export function ParallaxVideo({
     };
   }, []);
 
+  useEffect(() => {
+    const node = containerRef.current;
+    if (!node) {
+      return;
+    }
+
+    if (!("IntersectionObserver" in window)) {
+      setIsVisible(true);
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            setIsVisible(true);
+            observer.disconnect();
+            break;
+          }
+        }
+      },
+      { rootMargin: "200px" }
+    );
+
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <div
       ref={containerRef}
@@ -67,12 +96,12 @@ export function ParallaxVideo({
       <video
         ref={videoRef}
         className="absolute inset-0 h-full w-full object-cover will-change-transform"
-        src={src}
+        src={isVisible ? src : undefined}
         autoPlay
         muted
         loop
         playsInline
-        preload="metadata"
+        preload={isVisible ? "metadata" : "none"}
       />
       <div
         className={cn(

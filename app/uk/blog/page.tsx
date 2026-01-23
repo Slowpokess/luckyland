@@ -6,6 +6,7 @@ import { Calendar, Clock, ArrowRight } from "lucide-react";
 import { blogPosts } from "@/lib/data/blog-posts";
 import type { Metadata } from "next";
 import { FadeIn, StaggerChildren } from "@/components/animations/fade-in";
+import { LazyVideo } from "@/components/media/lazy-video";
 
 export const metadata: Metadata = {
   title: "Блог",
@@ -36,7 +37,7 @@ export default function BlogPage() {
       {/* Hero Section */}
       <section className="relative overflow-hidden bg-linear-to-b from-primary/10 to-background py-20 md:py-32">
         <div className="absolute inset-0 -z-20 overflow-hidden" aria-hidden="true">
-          <video
+          <LazyVideo
             className="absolute inset-0 h-full w-full object-cover"
             src="/img/blog.mp4"
             autoPlay
